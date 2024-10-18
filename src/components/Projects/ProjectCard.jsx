@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const ProjectCard = ({ title ,main, logo }) => {
+const ProjectCard = ({ title ,main, logo, demoLink, codeLink }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -28,12 +28,16 @@ const ProjectCard = ({ title ,main, logo }) => {
         )}
       </p>
       <div className='p-2 flex gap-2 md:gap-4'>
+        <a href={demoLink} target='_blank' rel='noopener noreferrer' >
         <button className='md:mt-10 text-white py-2 px-3 text-[13px] md:py-2 md:px-4 hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697]'>
           Demo
         </button>
+        </a>
+        <a href={codeLink} target='_blank' rel='noopener noreferrer' >
         <button className='md:mt-10 text-white py-2 px-3 text-[13px] md:py-2 md:px-4 hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697]'>
           Source code
         </button>
+        </a>
       </div>
     </div>
   )
