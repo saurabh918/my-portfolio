@@ -32,7 +32,7 @@ const iconsData = [
 
 const IconDisplay = () => {
   return (
-    <div className='flex flex-wrap xlg:w-2/5 gap-8 md:p-12 py-10'>
+    <div className='flex flex-wrap xlg:w-2/5 gap-7 md:p-12 py-10'>
       {
         iconsData.map(item => {
           return (
