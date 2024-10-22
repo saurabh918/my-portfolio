@@ -27,7 +27,10 @@ const Navbar = () => {
           openMenu(!menu)
           setShowMenu(!showMenu)
         }} />
-      ) : (<RiCloseLine size={30} className='md:hidden absolute right-10 top-6 transition-all duration-300' />)}
+      ) : (<RiCloseLine size={30} className='md:hidden absolute right-10 top-6 transition-all duration-300' onClick={() => {
+        openMenu(!menu)
+        setShowMenu(!showMenu)
+      }} />)}
     </nav>
   )
 }
