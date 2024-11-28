@@ -9,7 +9,7 @@ import QuizAppLogo from '../../assets/quiz-app.png'
 const Projects = () => {
   return (
     <div id='Projects' className='p-10 py-0 md:py-10 md:px-15 text-white'>
-      <h1 className='text-2xl md:text-4xl text-white font-bold md:ml-14'>Projects</h1>
+      <h1 className='text-2xl md:text-4xl text-white font-bold md:ml-14'>Personal Projects</h1>
       <div className='py-12 md:px-8 flex flex-wrap gap-5'>
         <ProjectCard title='Shopping Cart' logo={ShoppingCartLogo} demoLink='https://react-shopping-cart1996.netlify.app/' codeLink='https://github.com/saurabh918/shopping_cart' main='A shopping cart application where users can browse a list of products with the ability to apply various filters and search for specific items. Users can add products to the cart, adjust the quantity of items in the cart, and view the total cost based on the selected quantities. The application is built using React, with state management handled by useReducer and useContext.' />
         <ProjectCard title='Recipe search' logo={RecipeSearchLogo} demoLink='https://recipe-task.netlify.app/' codeLink='https://github.com/saurabh918/React-test2/tree/dev' main='A recipe search website where users are initially presented with a selection of default food items. Users can search for additional recipes using the search functionality and bookmark their favorite recipes for future reference. The application is built using React, React Redux Toolkit for state management, and Styled Components for styling.' />

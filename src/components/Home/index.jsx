@@ -14,7 +14,7 @@ const Home = () => {
         </p>
       </div>
       <div className='basis-2/5 md:w-[40%] mt-5'>
-        <img className='w-2/5 rounded-full' src={avatarImg} alt="Profile" />
+        <img className='w-2/5 rounded-full' src={avatarImg} alt="Profile" loading='lazy' />
       </div>
     </div>
   )

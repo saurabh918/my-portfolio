@@ -13,7 +13,7 @@ const ProjectCard = ({ title ,main, logo, demoLink, codeLink }) => {
 
   return (
     <div className='p-3 md:py-6 md:px-3 flex md:basis-[45%] xlg:basis-[18%] flex-col w-80 bg-[#0c0e19] shadow-xl shadow-slate-900 rounded-2xl'>
-      <img className='p-4' src={logo} alt="Banner" />
+      <img className='p-4' src={logo} alt="Banner" loading='lazy' />
       <h3 className='px-4 text-xl md:text-2xl font-bold leading-normal'>
         {title}
       </h3>

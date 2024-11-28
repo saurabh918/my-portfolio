@@ -23,6 +23,7 @@ const Experience = () => {
             className='w-[100%]'
             src="https://axioned.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F65857%2F1650366368-group-8-1.png&w=64&q=75" 
             alt="Axioned" 
+            loading='lazy'
             onError={(e) => {
               console.log('error err')
               e.target.onerror = null;
@@ -56,6 +57,7 @@ const Experience = () => {
             src="https://media.licdn.com/dms/image/v2/C560BAQEQ7HXmsc2mhA/company-logo_200_200/company-logo_200_200/0/1631302928445?e=1733356800&v=beta&t=qPgVfxFudZEvzmLnaLuR4rZu0j4CN_JaJT7IjyesTLs" 
             className='w-[100%]'
             alt="V2S Tech" 
+            loading='lazy'
             onError={(e) => {
               console.log('error err')
               e.target.onerror = null; // Prevents an infinite loop in case the fallback image fails to load
