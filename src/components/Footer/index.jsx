@@ -22,14 +22,14 @@ const Footer = () => {
         </li>
         <li className='flex justify-center md:justify-start gap-2 items-center transition transform hover:scale-105'>
           <CiLinkedin size={25} />
-          <a href="https://linkedin.com/username" target="_blank" rel="noopener noreferrer" className='text-sm md:text-lg hover:underline'>
-            linkedin.com/username
+          <a href="https://www.linkedin.com/in/saurabh-gaonkar-2b12841b7/" target="_blank" rel="noopener noreferrer" className='text-sm md:text-lg hover:underline'>
+            linkedin.com/in/saurabh-gaonkar-2b12841b7/
           </a>
         </li>
         <li className='flex justify-center md:justify-start gap-2 items-center transition transform hover:scale-105'>
           <FaGithub size={25} />
-          <a href="https://github.com/username" target="_blank" rel="noopener noreferrer" className='text-sm md:text-lg hover:underline'>
-            github.com/username
+          <a href="https://github.com/saurabh918" target="_blank" rel="noopener noreferrer" className='text-sm md:text-lg hover:underline'>
+          github.com/saurabh918
           </a>
         </li>
       </ul> 
