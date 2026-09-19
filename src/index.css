@@ -1,7 +1,398 @@
 @tailwind base;
+
 @tailwind components;
+
 @tailwind utilities;
 
-* {
-  scroll-behavior: smooth;
+
+
+:root {
+
+  color-scheme: dark;
+
+  --page: #0b0d12;
+
+  --page-muted: #0f1218;
+
+  --surface: #141820;
+
+  --surface-raised: #1a1f2a;
+
+  --line: rgba(255, 255, 255, 0.06);
+
+  --line-strong: rgba(255, 255, 255, 0.1);
+
+  --ink: #eef0f4;
+
+  --ink-soft: #c5cad3;
+
+  --mute: #8b95a5;
+
+  --accent: #5eead4;
+
+  --accent-strong: #2dd4bf;
+
+  --accent-dim: rgba(94, 234, 212, 0.1);
+
+  --width-site: 72rem;
+
+  --width-prose: 42rem;
+
+  --width-content: 36rem;
+
+  --shadow-soft: 0 8px 32px -12px rgba(0, 0, 0, 0.55);
+
+  --shadow-lift: 0 16px 48px -16px rgba(0, 0, 0, 0.65);
+
+  --shadow-assistant: 0 24px 64px -12px rgba(0, 0, 0, 0.85);
+
 }
+
+
+
+html {
+
+  scroll-behavior: smooth;
+
+  scroll-padding-top: 5.5rem;
+
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+
+    scroll-behavior: auto;
+
+  }
+
+
+
+  *,
+
+  *::before,
+
+  *::after {
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+
+    scroll-behavior: auto !important;
+
+  }
+
+}
+
+
+
+body {
+
+  margin: 0;
+
+  min-width: 320px;
+
+  background: var(--page);
+
+  color: var(--ink);
+
+  font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+}
+
+
+
+::selection {
+
+  background: rgba(94, 234, 212, 0.22);
+
+  color: var(--ink);
+
+}
+
+
+
+:focus-visible {
+
+  outline: 2px solid var(--accent);
+
+  outline-offset: 3px;
+
+}
+
+
+
+.skip-link {
+
+  position: absolute;
+
+  left: 1rem;
+
+  top: -3rem;
+
+  z-index: 80;
+
+  border-radius: 999px;
+
+  background: var(--accent);
+
+  color: #042f2e;
+
+  padding: 0.5rem 0.9rem;
+
+  font-weight: 600;
+
+}
+
+
+
+.skip-link:focus {
+
+  top: 1rem;
+
+}
+
+
+
+@layer components {
+
+  .section-shell {
+
+    @apply mx-auto px-5 py-12 md:px-8 md:py-16;
+
+    max-width: var(--width-site);
+
+  }
+
+
+
+  .section-shell--muted {
+
+    background-color: var(--page-muted);
+
+  }
+
+
+
+  .section-shell--compact {
+
+    @apply py-10 md:py-12;
+
+  }
+
+
+
+  .section-shell--surface {
+
+    background-color: color-mix(in srgb, var(--surface) 40%, transparent);
+
+  }
+
+
+
+  .prose-width {
+
+    max-width: var(--width-prose);
+
+  }
+
+
+
+  .chip {
+
+    @apply inline-flex items-center rounded-md px-2.5 py-1 text-xs;
+
+    background-color: var(--surface-raised);
+
+    color: var(--ink-soft);
+
+  }
+
+
+
+  .chip-accent {
+
+    background-color: var(--accent-dim);
+
+    color: var(--accent);
+
+  }
+
+
+
+  .surface-soft {
+
+    @apply rounded-xl p-5;
+
+    background-color: var(--surface);
+
+    box-shadow: var(--shadow-soft);
+
+  }
+
+
+
+  .surface-hover {
+
+    @apply transition-colors duration-200;
+
+  }
+
+
+
+  .surface-hover:hover {
+
+    background-color: var(--surface-raised);
+
+  }
+
+
+
+  .divider {
+
+    @apply h-px w-full;
+
+    background-color: var(--line);
+
+  }
+
+
+
+  .link-accent {
+
+    @apply font-medium transition-colors;
+
+    color: var(--accent);
+
+  }
+
+
+
+  .link-accent:hover {
+
+    color: var(--accent-strong);
+
+  }
+
+
+
+  .btn-primary {
+
+    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition;
+
+    background-color: var(--accent);
+
+    color: #042f2e;
+
+  }
+
+
+
+  .btn-primary:hover {
+
+    background-color: var(--accent-strong);
+
+  }
+
+
+
+  .btn-secondary {
+
+    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition;
+
+    background-color: var(--surface-raised);
+
+    color: var(--ink);
+
+  }
+
+
+
+  .btn-secondary:hover {
+
+    background-color: var(--surface);
+
+    color: var(--accent);
+
+  }
+
+
+
+  .btn-ghost {
+
+    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition;
+
+    color: var(--ink-soft);
+
+  }
+
+
+
+  .btn-ghost:hover {
+
+    color: var(--ink);
+
+  }
+
+}
+
+
+
+.reveal {
+
+  opacity: 0;
+
+  transform: translateY(12px);
+
+  transition: opacity 450ms ease, transform 450ms ease;
+
+}
+
+
+
+.reveal.is-visible {
+
+  opacity: 1;
+
+  transform: none;
+
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal {
+
+    opacity: 1;
+
+    transform: none;
+
+  }
+
+}
+
+
+
+.hero-grid {
+
+  background-image:
+
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+
+  background-size: 48px 48px;
+
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 20%, transparent 100%);
+
+}
+
