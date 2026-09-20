@@ -98,7 +98,7 @@ export default function Assistant() {
             <header className="flex shrink-0 items-center justify-between border-b border-line px-4 py-3">
               <div>
                 <h2 id={titleId} className="text-sm font-semibold text-ink">
-                  Ask about this work
+                  Ask about my work
                 </h2>
                 <p className="text-xs text-mute">Resume-backed answers</p>
               </div>
@@ -182,7 +182,7 @@ export default function Assistant() {
           aria-label={open ? 'Close work assistant' : 'Open work assistant'}
         >
           <HiOutlineChatAlt2 size={17} aria-hidden="true" />
-          <span className="hidden sm:inline">Ask about this work</span>
+          <span className="hidden sm:inline">Ask about my work</span>
         </button>
       </div>
     </div>
