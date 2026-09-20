@@ -5,6 +5,61 @@ import axionedLogo from '../assets/axioned-logo.png'
 import v2sLogo from '../assets/v2s-icon.jfif'
 import t7eLogo from '../assets/t7e-logo.png'
 
+export const T7E_EMPLOYMENT_END_DATE = '2026-09-30'
+export const T7E_EMPLOYMENT_STATUS_CUTOFF = '2026-10-01'
+
+function parseLocalDate(isoDate) {
+  return new Date(`${isoDate}T00:00:00`)
+}
+
+export function isT7ECurrentEmployer(referenceDate = new Date()) {
+  return referenceDate < parseLocalDate(T7E_EMPLOYMENT_STATUS_CUTOFF)
+}
+
+export function getT7EEndLabel(referenceDate = new Date()) {
+  return isT7ECurrentEmployer(referenceDate) ? 'Present' : 'Sep 2026'
+}
+
+export function getT7EPeriodLabel(referenceDate = new Date()) {
+  return isT7ECurrentEmployer(referenceDate) ? '2024 — Present' : '2024 — 2026'
+}
+
+export function getT7EDateRange(referenceDate = new Date()) {
+  return `Sep 2024 – ${getT7EEndLabel(referenceDate)}`
+}
+
+export const T7E_ROLE_HIGHLIGHTS =
+  'He led frontend work on loyalty and workforce-management dashboards, developed an Order Management System frontend end-to-end with hands-on backend contribution (Node.js, Express.js, MySQL, Sequelize), built mobile web-view campaign experiences, a Next.js + Strapi company website, and supported platform modernization including a Node.js 14 to 22 migration with Jenkins, Docker, and AWS-hosted environments.'
+
+function resolveExperienceEntries(jobs, referenceDate = new Date()) {
+  return jobs.map((job) => {
+    if (job.id !== 't7e') return job
+
+    const current = isT7ECurrentEmployer(referenceDate)
+    return {
+      ...job,
+      end: getT7EEndLabel(referenceDate),
+      current,
+    }
+  })
+}
+
+function resolveSelectedWorkEntries(work, referenceDate = new Date()) {
+  const period = getT7EPeriodLabel(referenceDate)
+
+  return work.map((item) =>
+    item.company === 'T7E Aftermarket Connect' ? { ...item, period } : item,
+  )
+}
+
+export function getExperience(referenceDate = new Date()) {
+  return resolveExperienceEntries(experienceEntries, referenceDate)
+}
+
+export function getSelectedWork(referenceDate = new Date()) {
+  return resolveSelectedWorkEntries(selectedWorkEntries, referenceDate)
+}
+
 export const profile = {
   name: 'Saurabh Gaonkar',
   shortName: 'Saurabh',
@@ -65,15 +120,14 @@ export const navLinks = [
   { href: '#contact', label: 'Contact' },
 ]
 
-export const experience = [
+const experienceEntries = [
   {
     id: 't7e',
     company: 'T7E Aftermarket Connect Pvt. Ltd.',
     role: 'Frontend Developer',
     location: 'Thane',
     start: 'Sep 2024',
-    end: 'Present',
-    current: true,
+    endDate: T7E_EMPLOYMENT_END_DATE,
     logo: t7eLogo,
     logoAlt: 'T7E logo',
     logoSurface: 'dark',
@@ -208,7 +262,9 @@ export const experience = [
   },
 ]
 
-export const selectedWork = [
+export const experience = getExperience()
+
+export const selectedWorkEntries = [
   {
     id: 'order-management-system',
     variant: 'fullstack',
@@ -337,6 +393,8 @@ export const selectedWork = [
     ],
   },
 ]
+
+export const selectedWork = getSelectedWork()
 
 export const personalProjects = [
   {
