@@ -3,6 +3,7 @@ import recipeSearchLogo from '../assets/recipe-search.jpg'
 import quizAppLogo from '../assets/quiz-app.jpg'
 import axionedLogo from '../assets/axioned-logo.png'
 import v2sLogo from '../assets/v2s-icon.jfif'
+import t7eLogo from '../assets/t7e-logo.png'
 
 export const profile = {
   name: 'Saurabh Gaonkar',
@@ -73,14 +74,19 @@ export const experience = [
     start: 'Sep 2024',
     end: 'Present',
     current: true,
-    logo: null,
-    logoAlt: '',
+    logo: t7eLogo,
+    logoAlt: 'T7E logo',
+    logoSurface: 'dark',
     mark: 'T7E',
     technologies: [
       'React.js',
       'Next.js',
       'TypeScript',
       'REST APIs',
+      'Node.js',
+      'Express.js',
+      'MySQL',
+      'Sequelize',
       'Strapi',
       'Docker',
       'AWS',
@@ -93,6 +99,13 @@ export const experience = [
           'Led frontend development across business-critical dashboards for loyalty programs, rewards tracking, workforce management, KYC verification, location monitoring, and operational reporting.',
           'Built reporting interfaces with tables, charts, filters, maps, and analytics views, integrated with REST APIs for mechanics, retailers, dealers, distributors, painters, field teams, and business stakeholders.',
           'Developed reusable React and Next.js components to keep UI consistent across projects, working with backend teams on data flow across web and mobile.',
+        ],
+      },
+      {
+        name: 'Order Management System — Full-Stack Contribution',
+        points: [
+          'Developed the frontend end-to-end for order and product management workflows — UI screens, forms and validation, search, filtering, pagination, role-based interfaces, and REST API integration using React.js.',
+          'Contributed to selected backend functionality using Node.js, Express.js, MySQL, and Sequelize, including REST APIs, authentication, role-based authorization, CRUD operations, order workflows, and relational database operations.',
         ],
       },
       {
@@ -200,8 +213,8 @@ export const selectedWork = [
     id: 'order-management-system',
     variant: 'fullstack',
     name: 'Order Management System',
-    company: 'Production · Full-Stack Contribution',
-    period: '',
+    company: 'T7E Aftermarket Connect',
+    period: '2024 — Present',
     badge: 'Full-stack',
     useCase:
       'Order and product management workflows with role-based access, API integrations, and operational data screens.',

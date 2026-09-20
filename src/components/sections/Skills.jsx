@@ -47,7 +47,7 @@ export default function Skills() {
           </div>
         </div>
 
-        {/* <div className="mt-5">
+        <div className="mt-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-mute">
             Supporting — Backend &amp; database
           </p>
@@ -59,7 +59,7 @@ export default function Skills() {
               <Chip key={item}>{item}</Chip>
             ))}
           </div>
-        </div> */}
+        </div>
       </Reveal>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -40,7 +40,9 @@ export default function Experience() {
                       <img
                         src={job.logo}
                         alt={job.logoAlt}
-                        className="mt-0.5 h-9 w-9 rounded-md bg-white object-contain p-0.5"
+                        className={`mt-0.5 h-9 w-9 rounded-md object-contain p-0.5 ${
+                          job.logoSurface === 'dark' ? 'bg-black' : 'bg-white'
+                        }`}
                       />
                     ) : (
                       <span

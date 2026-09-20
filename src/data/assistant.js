@@ -18,7 +18,7 @@ const answers = [
     id: 'current-role',
     questions: ['Tell me about his current role.', 'Where does he work now?'],
     keywords: ['current', 'present', 't7e', 'aftermarket', 'now', 'latest', 'role'],
-    answer: `He is currently a Frontend Developer at T7E Aftermarket Connect Pvt. Ltd. (Sep 2024 – Present). He has led frontend work on loyalty and workforce-management dashboards, mobile web-view campaign experiences, a Next.js + Strapi company website, and platform modernization including a Node.js 14 to 22 migration with Jenkins, Docker, and AWS-hosted environments.`,
+    answer: `He is currently a Frontend Developer at T7E Aftermarket Connect Pvt. Ltd. (Sep 2024 – Present). He has led frontend work on loyalty and workforce-management dashboards, developed an Order Management System frontend end-to-end with hands-on backend contribution (Node.js, Express.js, MySQL, Sequelize), built mobile web-view campaign experiences, a Next.js + Strapi company website, and supported platform modernization including a Node.js 14 to 22 migration with Jenkins, Docker, and AWS-hosted environments.`,
   },
   {
     id: 'previous-roles',
