@@ -71,7 +71,7 @@ export const profile = {
   phone: '+91 75175 44582',
   linkedin: 'https://www.linkedin.com/in/saurabh-gaonkar-2b12841b7/',
   github: 'https://github.com/saurabh918',
-  resumeHref: '/Saurabh_Gaonkar_Resume.docx',
+  resumeHref: '/Saurabh_Gaonkar_Resume.pdf',
   summary:
     'Frontend Developer with 4+ years of experience building enterprise web applications using React.js, Next.js, TypeScript, Redux, and modern frontend technologies. Experienced in dashboard development, CMS-driven websites, mobile web-view platforms, REST API integrations, performance optimization, and delivering scalable, user-centric solutions across multiple business domains.',
   aboutBrief:
