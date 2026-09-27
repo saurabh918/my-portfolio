@@ -106,9 +106,9 @@ export const profile = {
     'React.js',
     'Next.js',
     'TypeScript',
-    'Dashboards',
+    'Node.js',
+    'REST APIs',
     'CMS',
-    'API integration',
   ],
 }
 
