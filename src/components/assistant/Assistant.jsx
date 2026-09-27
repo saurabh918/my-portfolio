@@ -1,15 +1,18 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { HiOutlineChatAlt2, HiOutlineX } from 'react-icons/hi'
-import { answerFromPortfolio, suggestedQuestions } from '../../data/assistant'
+import { suggestedQuestions } from '../../data/assistant'
 
 const BASE_INSET = 16
 
 const INITIAL_MESSAGE = {
   id: 0,
   role: 'assistant',
-  text: 'Ask about experience, React/Next.js work, skills, or contact details. Answers come from this portfolio and resume only — not a live language model.',
+  text: 'Ask me about Saurabh\'s experience, skills, projects, education, or contact details. Answers are grounded in this portfolio.',
   animate: false,
 }
+
+const ASSISTANT_ERROR_MESSAGE =
+  "Sorry, I couldn't process that right now. Please try again."
 
 function usePrefersReducedMotion() {
   const [reduceMotion, setReduceMotion] = useState(false)
@@ -31,6 +34,7 @@ export default function Assistant() {
   const [panelVisible, setPanelVisible] = useState(false)
   const [bottomInset, setBottomInset] = useState(BASE_INSET)
   const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([INITIAL_MESSAGE])
   const listRef = useRef(null)
   const inputRef = useRef(null)
@@ -166,21 +170,63 @@ export default function Assistant() {
     }
   }
 
-  const ask = (question) => {
+  const ask = async (question) => {
     const trimmed = question.trim()
-    if (!trimmed) return
+    if (!trimmed || loading) return
 
-    const result = answerFromPortfolio(trimmed)
     const userId = nextMessageId.current
-    const assistantId = nextMessageId.current + 1
-    nextMessageId.current += 2
+    nextMessageId.current += 1
+
+    const history = messages
+      .filter((entry) => entry.role === 'user' || entry.role === 'assistant')
+      .filter((entry) => entry.id !== INITIAL_MESSAGE.id)
+      .slice(-6)
+      .map((entry) => ({ role: entry.role, content: entry.text }))
 
     setMessages((current) => [
       ...current,
       { id: userId, role: 'user', text: trimmed, animate: true },
-      { id: assistantId, role: 'assistant', text: result.text, animate: true },
     ])
     setInput('')
+    setLoading(true)
+
+    try {
+      const response = await fetch('/.netlify/functions/portfolio-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmed, history }),
+      })
+
+      let payload = {}
+      try {
+        payload = await response.json()
+      } catch {
+        payload = {}
+      }
+
+      const assistantText =
+        typeof payload.reply === 'string' && payload.reply.trim()
+          ? payload.reply.trim()
+          : ASSISTANT_ERROR_MESSAGE
+
+      const assistantId = nextMessageId.current
+      nextMessageId.current += 1
+
+      setMessages((current) => [
+        ...current,
+        { id: assistantId, role: 'assistant', text: assistantText, animate: true },
+      ])
+    } catch {
+      const assistantId = nextMessageId.current
+      nextMessageId.current += 1
+
+      setMessages((current) => [
+        ...current,
+        { id: assistantId, role: 'assistant', text: ASSISTANT_ERROR_MESSAGE, animate: true },
+      ])
+    } finally {
+      setLoading(false)
+    }
   }
 
   const onSubmit = (event) => {
@@ -249,6 +295,15 @@ export default function Assistant() {
                   {message.text}
                 </p>
               ))}
+              {loading ? (
+                <p
+                  className="assistant-message-enter mr-6 rounded-lg bg-page-muted px-3 py-2.5 text-sm leading-relaxed text-mute"
+                  style={{ backgroundColor: '#0f1218' }}
+                  aria-live="polite"
+                >
+                  Thinking…
+                </p>
+              ) : null}
             </div>
 
             <div className="shrink-0 border-t border-line px-4 py-3">
@@ -258,7 +313,8 @@ export default function Assistant() {
                     key={question}
                     type="button"
                     onClick={() => ask(question)}
-                    className="rounded-md bg-surface-raised px-2.5 py-1 text-left text-[11px] text-mute transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-[0.98]"
+                    disabled={loading}
+                    className="rounded-md bg-surface-raised px-2.5 py-1 text-left text-[11px] text-mute transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                     style={{ backgroundColor: '#1a1f2a' }}
                   >
                     {question}
@@ -280,10 +336,15 @@ export default function Assistant() {
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 placeholder="Ask a question"
-                className="h-10 min-w-0 flex-1 rounded-lg border border-line bg-page-muted px-3 text-sm text-ink placeholder:text-mute focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                disabled={loading}
+                className="h-10 min-w-0 flex-1 rounded-lg border border-line bg-page-muted px-3 text-sm text-ink placeholder:text-mute focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-60"
                 style={{ backgroundColor: '#0f1218' }}
               />
-              <button type="submit" className="btn-primary h-10 shrink-0 px-4 active:scale-[0.98]">
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary h-10 shrink-0 px-4 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+              >
                 Ask
               </button>
             </form>
