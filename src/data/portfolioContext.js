@@ -152,7 +152,8 @@ function getGeneralContext(referenceDate) {
  */
 export function buildPortfolioContext(intent, referenceDate = new Date()) {
   switch (intent) {
-    case 'experience':
+    case 'experience': {
+      const general = getGeneralContext(referenceDate)
       return {
         intent,
         profile: {
@@ -163,16 +164,24 @@ export function buildPortfolioContext(intent, referenceDate = new Date()) {
           aboutBrief: profile.aboutBrief,
           aboutPositioning: profile.aboutPositioning,
         },
+        employmentNote: general.employmentNote,
+        isT7ECurrentEmployer: isT7ECurrentEmployer(referenceDate),
+        t7eDateRange: getT7EDateRange(referenceDate),
       }
+    }
 
     case 'current-role': {
       const t7e = getT7EJob(referenceDate)
+      const isCurrent = isT7ECurrentEmployer(referenceDate)
       return {
         intent,
         dateRange: getT7EDateRange(referenceDate),
-        isCurrentEmployer: isT7ECurrentEmployer(referenceDate),
+        isCurrentEmployer: isCurrent,
         roleHighlights: T7E_ROLE_HIGHLIGHTS,
         t7e,
+        wordingGuidance: isCurrent
+          ? 'T7E is the current employer for this reference date; present-tense current-role wording is accurate.'
+          : 'T7E is not the current employer (employment ended September 2026). Do not say he currently works at T7E. Use most recent or previous employer wording. Do not invent a new employer after T7E.',
       }
     }
 
@@ -502,6 +511,15 @@ export function resolveAssistantIntent(message, history = []) {
       score: Math.max(classification.score, MATCH_THRESHOLD),
       useLlm: true,
       supplementalIntents: ['skills'],
+    }
+  }
+
+  if (/\b(tell me about yourself|about yourself)\b/i.test(lower)) {
+    return {
+      intent: 'experience',
+      score: Math.max(classification.score, MATCH_THRESHOLD),
+      useLlm: true,
+      supplementalIntents: ['current-role'],
     }
   }
 
