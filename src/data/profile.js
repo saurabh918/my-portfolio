@@ -143,7 +143,6 @@ const experienceEntries = [
       'Sequelize',
       'Strapi',
       'Docker',
-      'AWS',
       'Jenkins',
     ],
     projects: [
@@ -179,7 +178,7 @@ const experienceEntries = [
         name: 'Platform Modernization',
         points: [
           'Migrated multiple applications from Node.js 14 to Node.js 22, resolved dependency and compatibility issues, and optimized frontend performance.',
-          'Supported Jenkins pipelines, Docker-based deployment, and AWS-hosted environments.',
+          'Worked with Docker and Jenkins-based deployment workflows, troubleshooting Docker build issues and configuring Jenkins pipelines to automate Docker image build and push processes.',
         ],
       },
     ],
@@ -507,7 +506,7 @@ export const skillGroups = [
   },
   {
     name: 'Tools / DevOps',
-    items: ['Git', 'GitHub', 'Docker', 'AWS', 'Jenkins', 'Netlify', 'Webpack'],
+    items: ['Git', 'GitHub', 'Docker', 'Jenkins', 'Netlify', 'Webpack'],
   },
   {
     name: 'Quality & collaboration',
