@@ -4,6 +4,7 @@ import {
   education,
   skillGroups,
   isT7ECurrentEmployer,
+  getT7EEmploymentEndDateLabel,
   getT7EDateRange,
   getExperience,
   getSelectedWork,
@@ -18,7 +19,7 @@ function buildCurrentRoleAnswer(referenceDate = new Date()) {
     return `He is currently a Frontend Developer at T7E Aftermarket Connect Pvt. Ltd. (${dateRange}). ${T7E_ROLE_HIGHLIGHTS}`
   }
 
-  return `He previously worked as a Frontend Developer at T7E Aftermarket Connect Pvt. Ltd. (${dateRange}). His employment at T7E ended in September 2026. ${T7E_ROLE_HIGHLIGHTS}`
+  return `He previously worked as a Frontend Developer at T7E Aftermarket Connect Pvt. Ltd. (${dateRange}). His last day at T7E was ${getT7EEmploymentEndDateLabel()}. ${T7E_ROLE_HIGHLIGHTS}`
 }
 
 function buildPreviousRolesAnswer(referenceDate = new Date()) {

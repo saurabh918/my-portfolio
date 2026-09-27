@@ -2,8 +2,8 @@
 // Primary copy source: edit this file, or restore monolithic exports in profile.js and run npm run gen:profile-content.
 // Client logos: src/data/profile.js
 
-export const T7E_EMPLOYMENT_END_DATE = '2026-09-30'
-export const T7E_EMPLOYMENT_STATUS_CUTOFF = '2026-10-01'
+export const T7E_EMPLOYMENT_END_DATE = '2026-10-01'
+export const T7E_EMPLOYMENT_STATUS_CUTOFF = '2026-10-02'
 
 function parseLocalDate(isoDate) {
   return new Date(`${isoDate}T00:00:00`)
@@ -13,8 +13,76 @@ export function isT7ECurrentEmployer(referenceDate = new Date()) {
   return referenceDate < parseLocalDate(T7E_EMPLOYMENT_STATUS_CUTOFF)
 }
 
+export function getT7EEmploymentEndDateLabel() {
+  return parseLocalDate(T7E_EMPLOYMENT_END_DATE).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
+export function isT7EEmploymentLastDay(referenceDate = new Date()) {
+  if (!isT7ECurrentEmployer(referenceDate)) return false
+  const end = parseLocalDate(T7E_EMPLOYMENT_END_DATE)
+  return (
+    referenceDate.getFullYear() === end.getFullYear() &&
+    referenceDate.getMonth() === end.getMonth() &&
+    referenceDate.getDate() === end.getDate()
+  )
+}
+
+export function getT7EEmploymentStatus(referenceDate = new Date()) {
+  const isCurrentEmployer = isT7ECurrentEmployer(referenceDate)
+  const isLastEmploymentDay = isT7EEmploymentLastDay(referenceDate)
+  const employmentEndDateLabel = getT7EEmploymentEndDateLabel()
+
+  let summary
+  if (isLastEmploymentDay) {
+    summary = `T7E is the current employer and ${employmentEndDateLabel} is the last employment day (including this reference date).`
+  } else if (isCurrentEmployer) {
+    summary = `T7E is the current employer through ${employmentEndDateLabel} inclusive.`
+  } else {
+    summary = `T7E is a former employer from ${T7E_EMPLOYMENT_STATUS_CUTOFF} onward; last employment day was ${employmentEndDateLabel}.`
+  }
+
+  return {
+    employmentEndDate: T7E_EMPLOYMENT_END_DATE,
+    employmentEndDateLabel,
+    formerEmploymentStartsOn: T7E_EMPLOYMENT_STATUS_CUTOFF,
+    isCurrentEmployer,
+    isLastEmploymentDay,
+    summary,
+  }
+}
+
+export function getT7EEmploymentAnswerGuidance(referenceDate = new Date()) {
+  const status = getT7EEmploymentStatus(referenceDate)
+  const end = status.employmentEndDateLabel
+
+  if (status.isLastEmploymentDay) {
+    return `Reference date is the last employment day (${end}). T7E is still the current employer. Last-day answers may say today is the last day or the last day is ${end}. Do not say he already left T7E. Current-role answers may still describe T7E as current.`
+  }
+  if (status.isCurrentEmployer) {
+    return `T7E is the current employer. Last employment day is ${end}. Last-day questions use "is ${end}" wording. Do not say he previously worked at T7E.`
+  }
+  return `T7E is not the current employer (former from ${status.formerEmploymentStartsOn}). Last employment day was ${end}. Use past tense for last-day/leave questions. Do not describe T7E as current. Do not invent a new employer.`
+}
+
+export function getT7ELastDayAnswerGuidance(referenceDate = new Date()) {
+  const status = getT7EEmploymentStatus(referenceDate)
+  const end = status.employmentEndDateLabel
+
+  if (status.isLastEmploymentDay) {
+    return `Answer that today is the last day at T7E or that the last day is ${end}.`
+  }
+  if (status.isCurrentEmployer) {
+    return `Answer that the last day at T7E is ${end} (present/future wording, "is").`
+  }
+  return `Answer that the last day at T7E was ${end} (past wording, "was").`
+}
+
 export function getT7EEndLabel(referenceDate = new Date()) {
-  return isT7ECurrentEmployer(referenceDate) ? 'Present' : 'Sep 2026'
+  return isT7ECurrentEmployer(referenceDate) ? 'Present' : getT7EEmploymentEndDateLabel()
 }
 
 export function getT7EPeriodLabel(referenceDate = new Date()) {

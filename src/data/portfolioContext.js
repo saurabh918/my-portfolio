@@ -9,6 +9,9 @@ import {
   getSelectedWork,
   isT7ECurrentEmployer,
   getT7EDateRange,
+  getT7EEmploymentStatus,
+  getT7EEmploymentAnswerGuidance,
+  getT7ELastDayAnswerGuidance,
   T7E_ROLE_HIGHLIGHTS,
 } from './profileContent.js'
 
@@ -139,9 +142,8 @@ function getGeneralContext(referenceDate) {
     experienceYears: profile.experienceYears,
     location: profile.location,
     aboutPositioning: profile.aboutPositioning,
-    employmentNote: isT7ECurrentEmployer(referenceDate)
-      ? 'T7E is listed as current employer in portfolio data for this date.'
-      : 'T7E is listed as a previous employer (employment ended September 2026) for this date.',
+    employmentNote: getT7EEmploymentStatus(referenceDate).summary,
+    t7eEmployment: getT7EEmploymentStatus(referenceDate),
   }
 }
 
@@ -165,8 +167,20 @@ export function buildPortfolioContext(intent, referenceDate = new Date()) {
           aboutPositioning: profile.aboutPositioning,
         },
         employmentNote: general.employmentNote,
-        isT7ECurrentEmployer: isT7ECurrentEmployer(referenceDate),
+        t7eEmployment: general.t7eEmployment,
         t7eDateRange: getT7EDateRange(referenceDate),
+        employmentGuidance: getT7EEmploymentAnswerGuidance(referenceDate),
+      }
+    }
+
+    case 't7e-employment': {
+      const t7e = getT7EJob(referenceDate)
+      return {
+        intent,
+        t7eEmployment: getT7EEmploymentStatus(referenceDate),
+        lastDayGuidance: getT7ELastDayAnswerGuidance(referenceDate),
+        employmentGuidance: getT7EEmploymentAnswerGuidance(referenceDate),
+        t7e,
       }
     }
 
@@ -177,11 +191,12 @@ export function buildPortfolioContext(intent, referenceDate = new Date()) {
         intent,
         dateRange: getT7EDateRange(referenceDate),
         isCurrentEmployer: isCurrent,
+        t7eEmployment: getT7EEmploymentStatus(referenceDate),
         roleHighlights: T7E_ROLE_HIGHLIGHTS,
         t7e,
-        wordingGuidance: isCurrent
-          ? 'T7E is the current employer for this reference date; present-tense current-role wording is accurate.'
-          : 'T7E is not the current employer (employment ended September 2026). Do not say he currently works at T7E. Use most recent or previous employer wording. Do not invent a new employer after T7E.',
+        wordingGuidance: getT7EEmploymentAnswerGuidance(referenceDate),
+        historicalExperienceGuidance:
+          'For questions about work, projects, or experience at T7E (not employment dates/status), answer with full T7E role and project details from context even when T7E is a former employer.',
       }
     }
 
@@ -501,6 +516,37 @@ function isReactTopicFollowUp(message) {
   )
 }
 
+function isT7eHistoricalExperienceQuestion(message) {
+  const lower = message.toLowerCase()
+  return (
+    /\bt7e\b/i.test(lower) &&
+    /\b(tell me about|work at|worked at|experience at|projects at|what did you|work on|what projects)\b/i.test(
+      lower,
+    ) &&
+    !/\b(last day|last working day|leave|left|employment end|when did you leave)\b/i.test(lower)
+  )
+}
+
+function isT7eEmploymentTimelineQuestion(message) {
+  const lower = message.toLowerCase()
+  if (isT7eHistoricalExperienceQuestion(message)) return false
+
+  if (
+    /\b(last day|last working day|when did you leave|when do you leave|when does .*employment end|employment end|leave t7e|left t7e)\b/i.test(
+      lower,
+    )
+  ) {
+    return (
+      /\bt7e\b/i.test(lower) ||
+      /\b(your employment|my employment|last working day)\b/i.test(lower)
+    )
+  }
+
+  if (/\boctober 1\b/i.test(lower) && /\b(last day|t7e)\b/i.test(lower)) return true
+
+  return false
+}
+
 export function resolveAssistantIntent(message, history = []) {
   const classification = classifyIntent(message)
   const lower = message.toLowerCase()
@@ -511,6 +557,15 @@ export function resolveAssistantIntent(message, history = []) {
       score: Math.max(classification.score, MATCH_THRESHOLD),
       useLlm: true,
       supplementalIntents: ['skills'],
+    }
+  }
+
+  if (isT7eEmploymentTimelineQuestion(message)) {
+    return {
+      intent: 't7e-employment',
+      score: Math.max(classification.score, MATCH_THRESHOLD),
+      useLlm: true,
+      supplementalIntents: ['current-role'],
     }
   }
 
