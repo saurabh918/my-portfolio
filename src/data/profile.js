@@ -75,7 +75,7 @@ export const profile = {
   summary:
     'Frontend Developer with 4+ years of experience building enterprise web applications using React.js, Next.js, TypeScript, Redux, and modern frontend technologies. Experienced in dashboard development, CMS-driven websites, mobile web-view platforms, REST API integrations, performance optimization, and delivering scalable, user-centric solutions across multiple business domains.',
   aboutBrief:
-    'Frontend Developer with 4+ years of experience building production web applications with React and Next.js, with hands-on backend exposure through Node.js, Express.js, MySQL, and REST APIs. I work across dashboards, CMS-driven websites, mobile web views, and API-backed workflows, with a focus on reusable UI, performance, and reliable user experiences.',
+    'Frontend Developer with 4+ years of experience building production web applications with React and Next.js, with hands-on backend exposure through Node.js, Express.js, MySQL, and REST APIs. I work across dashboards, CMS-driven websites, mobile web views, and API-backed workflows, with a focus on reusable UI, performance, and reliable user experiences. Practical experience integrating LLM-powered features with product retrieval, intent routing, and server-side APIs.',
   aboutPositioning:
     'Production frontend developer building maintainable React and Next.js interfaces for enterprise teams.',
   aboutFacts: [
@@ -550,6 +550,12 @@ export const capabilities = [
     description:
       'End-to-end UI delivery: reusable components, Git reviews, production fixes, and collaboration with backend teams.',
     icon: '◎',
+  },
+  {
+    title: 'AI / LLM integration',
+    description:
+      'Built a retrieval-first AI shopping assistant with intent routing, keyword-based product catalog retrieval, conversational context, and server-side LLM integration via a Netlify Function.',
+    icon: '◈',
   },
 ]
 
